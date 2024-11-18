@@ -10,7 +10,7 @@ start:
     mov al, 'X'
     int 0x10
 
-jmp LOADER_BASE_ADDR
+jmp $$
 
 times 510-($-$$) db 0;
 db 0x55
