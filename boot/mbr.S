@@ -37,6 +37,7 @@ mov bx, LOADER_BASE_ADDR        ;写入的地址
 mov cx,1                        ;待读入的扇区数
 call rd_disk_m_16               ;以下读取程序的起始部分（一个扇区）
 
+jmp LOADER_BASE_ADDR
 
 rd_disk_m_16:
     mov esi, eax
@@ -73,26 +74,26 @@ rd_disk_m_16:
     mov al, 0x20;
     out dx, al;
 
-.not_ready:
-    nop;
-    in al, dx;
-    and al, 0x88;
-    cmp al, 0x88;
-    jnz .not_ready
+    .not_ready:
+        nop;
+        in al, dx;
+        and al, 0x88;
+        cmp al, 0x08;
+        jnz .not_ready
 
-    mov ax, di;
-    mov dx, 256;
-    mul dx;
-    mov cx, ax;
+        mov ax, di;
+        mov dx, 256;
+        mul dx;
+        mov cx, ax;
 
-    mov dx, 0x1f0;
+        mov dx, 0x1f0;
 
-.go_on_read:
-    in ax, dx;
-    mov [bx], ax;
-    add bx, 2;
-    loop .go_on_read
-    ret
+    .go_on_read:
+        in ax, dx;
+        mov [bx], ax;
+        add bx, 2;
+        loop .go_on_read
+        ret
 
 times 510-($-$$) db 0
 db 0x55,0xaa
