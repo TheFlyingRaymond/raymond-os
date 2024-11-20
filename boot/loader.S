@@ -23,7 +23,7 @@ VIDEO_DESC: dd 0x80000007
 
 GDT_SIZE equ $ - GDT_BASE
 GDT_LIMIT equ GDT_SIZE - 1
-times 120 dd 0
+times 60 dd 0
 SELECTOR_CODE equ (0x0001 << 3) + TI_GDT + RPL0
 SELECTOR_DATA equ (0x0002 << 3) + TI_GDT + RPL0
 SELECTOR_VIDEO equ (0x0003 << 3) + TI_GDT + RPL0
@@ -76,6 +76,7 @@ p_mode_start:
     mov gs, ax
 
     mov byte [gs:160], 'P'
+    ; 与书中不同，这里使用蓝底白字
     mov byte [gs:161], 0x1f
 
     jmp $

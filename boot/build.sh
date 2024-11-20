@@ -1,5 +1,5 @@
 echo "创建硬盘"
-bximage -hd -mode='flat' -size=60M -q disk.img 
+bximage -hd -mode='flat' -size=10M -q disk.img 
 
 echo "编译文件"
 nasm -I include/ -o mbr.bin mbr.S
