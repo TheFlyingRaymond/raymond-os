@@ -25,7 +25,7 @@ void put_int(uint32_t num);
 
 
 
-int __main(void) {
+int main(void) {
     put_char('k');
     put_char('e');
     put_char('r');
