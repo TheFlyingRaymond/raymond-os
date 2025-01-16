@@ -5,7 +5,8 @@
 ./clear.sh
 
 echo "Creating disk.img..."
-bximage -func=create -hd=10M -q disk.img
+bximage -hd -mode=flat -size=60m -q  disk.img
+
 
 
 

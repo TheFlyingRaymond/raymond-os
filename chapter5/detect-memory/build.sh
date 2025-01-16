@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "Creating disk.img..."
-bximage -mode=create -hd=10M -q disk.img
+bximage -hd -mode=flat -size=60m -q  disk.img
 
 echo "Compiling..."
 nasm -I include/ -o mbr.bin mbr.asm

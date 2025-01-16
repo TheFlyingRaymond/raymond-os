@@ -5,8 +5,7 @@
 ./clear.sh
 
 echo "Creating disk.img..."
-bximage -func=create -hd=10M -q disk.img
-
+bximage -hd -mode=flat -size=60m -q  disk.img
 
 
 echo "Compiling..."
@@ -15,7 +14,7 @@ nasm -I include/ -o loader.bin loader.asm
 nasm -f elf -o kernel/print.o lib/kernel/print.asm
 nasm  -o kernel/print.o lib/kernel/print.asm
 
-gcc -c -o kernel/main.o kernel/main.c
+gcc -c -m32 -o kernel/main.o kernel/main.c
 ld -Ttext 0xc0001500 -o kernel/kernel.bin kernel/print.o kernel/main.o
 
 echo "Writing mbr and loader to disk..."

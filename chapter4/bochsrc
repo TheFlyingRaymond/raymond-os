@@ -1,20 +1,22 @@
-# Bochs配置文件
+#bochs 2.8
 
-# 机器内存: 32MB
-megs: 32
+#!/bin/sh
 
-# 对应真实机器的bios
-romimage: file="/usr/local/share/bochs/BIOS-bochs-latest"
-# 对应真实机器的VGA bios
-vgaromimage: file="/usr/local/share/bochs/VGABIOS-lgpl-latest"
+./clear.sh
 
-# 启动方式
-boot: disk
+echo "Creating disk.img..."
+bximage -hd -mode=flat -size=60m -q  disk.img
 
-# 关闭鼠标
-mouse: enabled=0
 
-# 硬盘设置
-ata0: enabled=1, ioaddr1=0x1f0, ioaddr2=0x3f0, irq=14
-ata0-master: type=disk, path="disk.img", mode=flat
+echo "Compiling..."
+nasm -I include/ -o mbr.bin mbr.asm
+nasm -I include/ -o loader.bin loader.asm
+
+echo "Writing mbr and loader to disk..."
+dd if=./mbr.bin of=./disk.img bs=512 count=1 conv=notrunc
+dd if=./loader.bin of=./disk.img bs=512 count=4 seek=2 conv=notrunc
+
+echo "Now start bochs and have fun!"
+bochs -f bochsrc 
+
 
